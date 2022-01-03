@@ -6,6 +6,8 @@ const redis = new Redis({
   port: 6379,
 });
 
+
+
 const getName = () => {
   return new Promise((res, rej) => {
     redis.get("name", (err, reply) => {
@@ -19,6 +21,21 @@ const getName = () => {
     });
   });
 };
+
+
+const setName = (data) => {
+    return new Promise((res, rej) => {
+      redis.set("name", data, (err, reply) => {
+        if (err) {
+          rej(err);
+          throw err;
+        } else {
+          console.log(reply);
+          res(reply);
+        }
+      });
+    });
+  };
 
 getName()
   .then((data) => console.log("getName data is", data))
@@ -38,4 +55,5 @@ redis.get("name", (err, reply) => {
 
 module.exports = {
   getName,
+  setName,
 };
